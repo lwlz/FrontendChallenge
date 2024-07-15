@@ -10,7 +10,7 @@ export default class EmployeeDatasource extends EmployeeDatasourceContract {
   public async getEmployeeList(): Promise<EmployeeListModel | undefined> {
     try {
       const response = await fetch(
-        "https://dummy.restapiexample.com/api/v1/employees",
+        "https://dummy.restapiexample.com/api/v1/employees"
       );
 
       // Validate response
@@ -30,26 +30,95 @@ export default class EmployeeDatasource extends EmployeeDatasourceContract {
   }
 
   public async createEmployee(
-    params: unknown,
+    params: unknown
   ): Promise<EmployeeModel | undefined> {
-    throw new Error("Method not implemented.");
+    try {
+      const response = await fetch(
+        "https://dummy.restapiexample.com/api/v1/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        }
+      );
+
+      if (response.status !== 200) {
+        return undefined;
+      }
+
+      const json = await response.json();
+      return json.data;
+    } catch (exception) {
+      return undefined;
+    }
   }
 
   public async getEmployeeById(
-    params: GetEmployeeByIdParams,
+    params: GetEmployeeByIdParams
   ): Promise<EmployeeModel | undefined> {
-    throw new Error("Method not implemented.");
+    try {
+      const response = await fetch(
+        `https://dummy.restapiexample.com/api/v1/employee/${params.id}`
+      );
+
+      if (response.status !== 200) {
+        return undefined;
+      }
+
+      const json = await response.json();
+      return json.data;
+    } catch (exception) {
+      return undefined;
+    }
   }
 
   public async updateEmployeeById(
-    params: unknown,
+    params: unknown
   ): Promise<EmployeeModel | undefined> {
-    throw new Error("Method not implemented.");
+    try {
+      const response = await fetch(
+        `https://dummy.restapiexample.com/api/v1/update/${params.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        }
+      );
+
+      if (response.status !== 200) {
+        return undefined;
+      }
+
+      const json = await response.json();
+      return json.data;
+    } catch (exception) {
+      return undefined;
+    }
   }
 
-  public deleteEmployeeById(
-    params: unknown,
+  public async deleteEmployeeById(
+    params: unknown
   ): Promise<EmployeeModel | undefined> {
-    throw new Error("Method not implemented.");
+    try {
+      const response = await fetch(
+        `https://dummy.restapiexample.com/api/v1/delete/${params.id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.status !== 200) {
+        return undefined;
+      }
+
+      const json = await response.json();
+      return json.data;
+    } catch (exception) {
+      return undefined;
+    }
   }
 }
